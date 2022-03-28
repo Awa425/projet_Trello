@@ -1,3 +1,167 @@
+
+   
 body{
-    background-color: #260c0c;
+    padding: 0;
+    margin: 0;
+    background-image: url('../images/archer-fu-43fqLoSuNGQ-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 150vh;
+    display: flex;
+    flex-direction: column;
+}
+header{
+    background-color: #ce818c;
+    display: flex;
+    height: 6vh;
+    padding: 8px;
+    margin: 1%;
+}
+header button{
+    margin: 9px;
+}
+main{
+    min-height: 92vh;
+    display: flex;
+    padding: 5px;
+}
+
+.container{
+    position: relative;
+    border: 2px solid white;
+    min-height: 70vh;
+    max-width: 18vw;
+    border-radius: 10px;
+    margin: 5px;
+}
+.container .close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-weight: bold;
+    cursor: default;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 10px;
+    width: 100%;
+}
+.card .entete-card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    height: 7%;
+}
+.card .img{
+    height: 20%;
+}
+.img img{
+    width: 100%;
+    height: 100%;
+}
+.note{
+    height: auto;
+    /* background-color: #fbcbc3; */
+}
+.note .us{
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #d2f0e8;
+    position: relative;
+}
+.us textarea{
+    width: 90%;
+    height: 50px;
+    background-color: #b1ccc4;
+
+}
+.us textarea:focus{
+   outline: none;
+   background-color: white;
+    
+}
+.note .us span{
+    background-color: #17ac84;
+    width: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5%;
+}
+.span-next{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.modal{
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+    position: fixed ;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.modal.show-modal{
+    display: block;
+}
+.modal-container{
+    overflow: hidden;
+    background-color: #e2bdb4;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 10px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    height: 70%;
+    z-index: 100;
+}
+.modal-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: 8px;
+}
+.modal-head span{
+    cursor: default;
+}
+.modal-main p{
+    font-weight: bold;
+   
+}
+form{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 100%;
+}
+.form-control{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.btn{
+    height: 17%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form button{
+  
+    width: 80%;
+}
+form button:hover{
+    background-color: #17ac84;
+
 }

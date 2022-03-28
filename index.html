@@ -8,6 +8,62 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <header>
+            <button id="add-column">Add Column</button>
+            <button id="add-task">Add Task</button>
+    </header>
+    <main id="main">
+        <!-- <div class="container">
+            <span class="close">x</span>
+            <div class="card">
+                <span class="entete-card">Backlog</span>
+                <div class="img"><img src="./images/file-1636585210491-f28ca34ea8ecimage.jpeg" alt=""></div>
+                <div class="note">
+                    <div class="us">
+                       <span><<</span>
+                        <span class="span-next">>></span>
+                       <textarea> Lorem ipsum dolor sit amet.</textarea>
+                       <p>Date: </p>
+                       <p class="heure-debut">Heure debut: </p>
+                       <p class="heure-fin">Heure Fin: </p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
+    </main>
+    <div class="modal">
+        <div class="modal-container">
+            <div class="modal-head">
+                <p>Nouvel Tache</p>
+                <div class="modal-close"><span>x</span></div>
+            </div>
+            <div class="modal-main">
+                <p>Remplit les information de la nouvelle tache</p>
+                <form action="">
+                    <div class="form-control">
+                        <span>Notes</span>
+                        <textarea name="" id="note-textarea" cols="30" rows="5"></textarea>
+                    </div>
+                    <div class="form-control">
+                        <span>Date</span>
+                        <input type="date" class="date">
+                    </div>
+                    <div class="form-control">
+                        <span>Heure de debut</span>
+                        <input type="time" class="heure-debut">
+                    </div>
+                    <div class="form-control">
+                        <span>Heure de Fin</span>
+                        <input type="time" class="heure-fin">
+                    </div>
+                    <div class="btn">
+                        <button id="ajouter">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
 </body>
 </html>
