@@ -1,4 +1,6 @@
-
+:root{
+    --column-decoration: 3s;
+}
    
 body{
     padding: 0;
@@ -6,7 +8,7 @@ body{
     background-image: url('../images/archer-fu-43fqLoSuNGQ-unsplash.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    min-height: 150vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -16,6 +18,13 @@ header{
     height: 6vh;
     padding: 8px;
     margin: 1%;
+    position: relative;
+}
+header .icon-corbeil{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    cursor: pointer;
 }
 header button{
     margin: 9px;
@@ -24,15 +33,19 @@ main{
     min-height: 92vh;
     display: flex;
     padding: 5px;
+    
 }
 
 .container{
     position: relative;
     border: 2px solid white;
-    min-height: 70vh;
+    height: 80vh;
     max-width: 18vw;
     border-radius: 10px;
     margin: 5px;
+    animation-duration: var(--column-decoration);
+    animation-name: myAnimation;
+    
 }
 .container .close{
     position: absolute;
@@ -47,6 +60,7 @@ main{
     height: 100%;
     border-radius: 10px;
     width: 100%;
+
 }
 .card .entete-card{
     display: flex;
@@ -56,7 +70,7 @@ main{
     height: 7%;
 }
 .card .img{
-    height: 20%;
+    height: 15%;
 }
 .img img{
     width: 100%;
@@ -64,7 +78,10 @@ main{
 }
 .note{
     height: auto;
-    /* background-color: #fbcbc3; */
+    background-image: url('../images/logo.png');
+    background-size: 100% 100%;
+   height: 82%;
+   overflow: scroll;
 }
 .note .us{
     /* display: flex; */
@@ -74,6 +91,9 @@ main{
     border-radius: 5px;
     background-color: #d2f0e8;
     position: relative;
+}
+.noteToggle{
+    /* transform: translateY(100%); */
 }
 .us textarea{
     width: 90%;
@@ -156,6 +176,7 @@ form{
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 form button{
   
@@ -164,4 +185,65 @@ form button{
 form button:hover{
     background-color: #17ac84;
 
+}
+.corbeil{
+    display: none;
+    position: fixed ;
+    top: 0;
+    left: 0;
+    right: 5%;
+    bottom: 0;
+    /* background-color: rgba(0, 0, 0, 0.8); */
+
+}
+.corbeil.show-corbeil{
+    display: block;
+}
+.corbeil-container{
+    background-color: #e2bdb4;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    top: 10px;
+    left: 50%;
+    box-shadow: 0 10px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    min-height: 70%;
+    width: 45%;
+    z-index: 90;
+}
+.corbeil-header{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: 8px;
+}
+.corbeil-header span{
+    display: flex;
+    align-items: center;
+    width: 10%;
+    justify-content: center;
+}
+.corbeil-etat{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid grey;
+}
+.corbeil-etat button{
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+}
+
+@keyframes myAnimation{
+    from{
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
 }

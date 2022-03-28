@@ -1,11 +1,3 @@
-const main = document.getElementById('main');
-const add_column = document.getElementById('add-column')
-const add_task = document.getElementById('add-task')
-const modal = document.querySelector('.modal')
-const modal_close = document.querySelector('.modal-close')
-const ajouter = document.getElementById('ajouter')
-const note_textarea = document.getElementById('note-textarea')
-const dateUs = document.querySelector('.date')
 
 let couleur = [
     "#ffefe7",
@@ -19,9 +11,22 @@ let image = [
 
 ]
 
+const main = document.getElementById('main');
+const add_column = document.getElementById('add-column')
+const add_task = document.getElementById('add-task')
+const modal = document.querySelector('.modal')
+const modal_close = document.querySelector('.modal-close')
+const ajouter = document.getElementById('ajouter')
+const note_textarea = document.getElementById('note-textarea')
+const dateUs = document.querySelector('.date')
+const corbeil_content = document.querySelector('.corbeil-content')
+const fermer_corbeil = document.querySelector('.fermer-corbeil')
+const icon_corbeil = document.querySelector('.icon-corbeil')
+const corbeil = document.querySelector('.corbeil')
+// console.log(icon_corbeil)
 let cpt = 1;
-createCard()
-function createCard() {
+createColumn()
+function createColumn() {
     if (cpt<=5) {  
          //Create Element
         const container = document.createElement('div');
@@ -42,27 +47,8 @@ function createCard() {
         // textarea.setAttribute('id','texterea_'+cpt);
         card_entete.setAttribute('class', 'entete-card')
         card_img.setAttribute('src', './images/file-1636585210491-f28ca34ea8ecimage.jpeg');
+        card_entete.value="Colonne "+cpt
         card_entete.style.backgroundColor=randomColor()    
-        switch (cpt) {
-            case 1:
-            card_entete.value="Backlog";
-            break;
-            case 2:
-                card_entete.value="Sprint Backlog";
-                break;
-            case 3:
-                card_entete.value="Doing";
-                break;
-            case 4:
-                card_entete.value="Done";
-                break;
-            case 5:
-                card_entete.value="Test";
-                break;    
-
-            default:
-                break;
-        }
         close.textContent="x"
         
         //Append
@@ -74,7 +60,7 @@ function createCard() {
         close.addEventListener('click', ()=>{
             container.remove();
             cpt--;
-            // update_entete();
+            update_entete();
             update_id_card();
             update_textarea()
         })
@@ -88,6 +74,7 @@ function createUs(content,dat,hDebut,hFin) {
     const span_prev = document.createElement('span');
     const textarea = document.createElement('textarea');
     const span_next = document.createElement('span');
+    const divNoteToggle = document.createElement('div');
     const date = document.createElement('p');
     const heureDebut = document.createElement('p');
     const heureFin = document.createElement('p');
@@ -97,16 +84,15 @@ function createUs(content,dat,hDebut,hFin) {
     textarea.setAttribute('cols', "5")
     textarea.setAttribute('rows', "3")
     span_next.setAttribute('class', 'span-next');
+    divNoteToggle.setAttribute('class', 'noteToggle')
     textarea.textContent=content;
     date.textContent="Date: "+dat;
     heureDebut.textContent="Heure debut: "+hDebut;
     heureFin.textContent="Heure Fin: "+hFin;
     span_prev.textContent="<<"
     span_next.textContent=">>"
-    us.append(span_prev,span_next,textarea,date,heureDebut,heureFin);
-    // span_next.addEventListener('click', ()=>{
-    //     alert('ok');
-    //  })
+    divNoteToggle.append( date,heureDebut,heureFin)
+    us.append(span_prev,span_next,textarea,divNoteToggle);
 
     return us
 }
@@ -120,21 +106,7 @@ function update_entete(){
     const inputs = document.querySelectorAll('.entete-card');
     inputs.forEach((input,i) => {
         i++;
-        if (i==1) {
-            input.value= "Backlog";
-        }
-        if (i==2) {
-            input.value= "Sprint Backlog";
-        }
-        if (i==3) {
-            input.value= "Doing";
-        }
-        if (i==4) {
-            input.value= "Done";
-        }
-        if (i==5) {
-            input.value= "Test";
-        }
+        input.value= "Colonne "+i;
         
     }); 
 }
@@ -154,9 +126,30 @@ function update_textarea() {
         tex.setAttribute('id','texterea_'+i);
     })
 }
+addCorbeil() 
+function addCorbeil() {
+    const corbeil_etat = document.createElement('div')
+    const corbeil_us_content = document.createElement('span')
+    const num_colonne = document.createElement('span')
+    const corbeil_date = document.createElement('span')
+    const corbeil_HDebut = document.createElement('span')
+    const corbeil_HFin = document.createElement('span')
+    const btn_restaurer = document.createElement('button')
+
+    corbeil_etat.setAttribute('class','corbeil-etat');
+    corbeil_us_content.textContent="US: "
+    num_colonne.textContent="Colonne numero: "
+    corbeil_date.textContent="Date: "
+    corbeil_HDebut.textContent="Heure Debut : "
+    corbeil_HFin.textContent="Heure de fin : "
+    btn_restaurer.textContent="Restaurer"
+
+    corbeil_etat.append(corbeil_us_content,num_colonne,corbeil_date,corbeil_HDebut,corbeil_HFin,btn_restaurer);
+    corbeil_content.append(corbeil_etat)
+}
 
 add_column.addEventListener('click', ()=>{
-    createCard()
+    createColumn()
 })
 
 add_task.addEventListener('click',()=>{
@@ -182,4 +175,14 @@ ajouter.addEventListener('click', (e)=>{
     e.preventDefault();
     modal.classList.remove('show-modal')
     creeUs.append(uss)
+})
+
+icon_corbeil.addEventListener('click', ()=>{
+    corbeil.classList.add('show-corbeil')
+
+})
+
+fermer_corbeil.addEventListener('click', ()=>{
+    corbeil.classList.remove('show-corbeil')
+
 })
