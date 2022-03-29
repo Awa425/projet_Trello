@@ -44,6 +44,7 @@ function createColumn() {
         card.setAttribute('class', 'card')
         div_card_img.setAttribute('class', 'img')
         note.setAttribute('class', 'note')
+        note.setAttribute('id', 'note_'+cpt)
         // textarea.setAttribute('id','texterea_'+cpt);
         card_entete.setAttribute('class', 'entete-card')
         card_img.setAttribute('src', './images/file-1636585210491-f28ca34ea8ecimage.jpeg');
@@ -67,7 +68,7 @@ function createColumn() {
         cpt++ 
     } 
 }
-
+let j = 1;
 function createUs(content,dat,hDebut,hFin) {
     const parentUs = document.querySelector('.note')
     const us = document.createElement('div');
@@ -85,6 +86,7 @@ function createUs(content,dat,hDebut,hFin) {
     textarea.setAttribute('rows', "3")
     span_next.setAttribute('class', 'span-next');
     divNoteToggle.setAttribute('class', 'noteToggle')
+    us.setAttribute('id', 'us_'+j)
     textarea.textContent=content;
     date.textContent="Date: "+dat;
     heureDebut.textContent="Heure debut: "+hDebut;
@@ -94,9 +96,28 @@ function createUs(content,dat,hDebut,hFin) {
     divNoteToggle.append( date,heureDebut,heureFin)
     us.append(span_prev,span_next,textarea,divNoteToggle);
 
+    span_next.setAttribute('onClick',`deplacerNext(${j})`)
+    span_prev.setAttribute('onClick',`deplacerPrev(${j})`)
+    j++;
     return us
 }
 
+function deplacerNext(j) {
+    const move = document.getElementById('us_'+j)
+    console.dir(move.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild.lastChild)
+    const divMove = move.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild.lastChild;
+    if(move.parentElement.parentElement.parentElement.nextSibling !=""){
+        divMove.append(move);
+    }
+}
+function deplacerPrev(j) {
+    const move = document.getElementById('us_'+j)
+    console.dir(move.parentElement.parentElement.parentElement.previousElementSibling.lastElementChild.lastChild)
+    const divMove = move.parentElement.parentElement.parentElement.previousElementSibling.lastElementChild.lastChild;
+    if(move.parentElement.parentElement.parentElement.previousElementSibling !=""){
+        divMove.append(move);
+    }
+}
 
 function randomColor() {
     return couleur[Math.floor(Math.random()*couleur.length)]
@@ -162,8 +183,6 @@ modal_close.addEventListener('click', ()=>{
     modal.classList.remove('show-modal')
 })
 
-// const flecheDroite = document.querySelectorAll('.span-next')
-// console.log(flecheDroite)
 
 ajouter.addEventListener('click', (e)=>{
     const textareaContent = document.querySelector('.textarea');
