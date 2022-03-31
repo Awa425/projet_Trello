@@ -246,8 +246,20 @@ form button:hover{
 .corbeil.show-corbeil{
     display: block;
 }
+.corbeil.corbeil.show-corbeil .us:hover .noteToggle{
+    display: block;
+}
+.corbeil.corbeil.show-corbeil .span-next{
+    display: none;
+}
+.corbeil.corbeil.show-corbeil .span-prev{
+    display: none;
+}
+.corbeil.corbeil.show-corbeil .delete-tache{
+    display: none;
+}
 .corbeil-container{
-    background-color: #e2bdb4;
+    background-color: var(--secondary-color);
     display: flex;
     position: absolute;
     flex-direction: column;
