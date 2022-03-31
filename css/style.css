@@ -1,11 +1,13 @@
 :root{
     --column-decoration: 3s;
+    --primary-color: #505050;
+    --secondary-color: #b4b4b4
 }
    
 body{
     padding: 0;
     margin: 0;
-    background-image: url('../images/archer-fu-43fqLoSuNGQ-unsplash.jpg');
+    background-image: url('../images/nikita-tikhomirov-iTIwzn2Fa8Y-unsplash.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     min-height: 100vh;
@@ -13,7 +15,7 @@ body{
     flex-direction: column;
 }
 header{
-    background-color: #ce818c;
+    background-color: var(--primary-color);
     display: flex;
     height: 6vh;
     padding: 8px;
@@ -45,7 +47,14 @@ main{
     margin: 5px;
     animation-duration: var(--column-decoration);
     animation-name: myAnimation;
+    width: 27%;
     
+}
+.container:first-child .card .note .us .span-prev{
+    display: none;
+}
+.container:last-child .card .note .us .span-next{
+    display: none;
 }
 .container .close{
     position: absolute;
@@ -68,6 +77,10 @@ main{
     justify-content: center;
     font-weight: bold;
     height: 7%;
+    
+}
+.card .entete-card:focus{
+    outline: none;
 }
 .card .img{
     height: 15%;
@@ -78,7 +91,7 @@ main{
 }
 .note{
     height: auto;
-    background-image: url('../images/logo.png');
+    background-image: url('../images/log.png');
     background-size: 100% 100%;
    height: 82%;
    overflow: scroll;
@@ -92,8 +105,14 @@ main{
     background-color: #d2f0e8;
     position: relative;
 }
+.note .us:hover .noteToggle{
+    display: block;
+}
 .noteToggle{
-    /* transform: translateY(100%); */
+    display: none;
+}
+.noteToggle.show-noteToggle{
+    display: none;
 }
 .us textarea{
     width: 90%;
@@ -106,19 +125,47 @@ main{
    background-color: white;
     
 }
-.note .us span{
-    background-color: #17ac84;
-    width: 34px;
+
+.delete-tache{
+    cursor: pointer;
+    width: 10%;
+    height: 19%;
+    position: absolute;
+    height: 10%;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.span-next{
+    width: 40px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 5%;
-}
-.span-next{
+    font-weight: bold;
+    cursor: pointer;
     position: absolute;
-    top: 0;
+    bottom: 5px;
     right: 0;
+    font-size: 2rem;
+}
+.span-prev{
+    width: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5%;
+    font-weight: bold;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    cursor: pointer;
+    font-size: 2rem;
+
 }
 .modal{
     background-color: rgba(0, 0, 0, 0.4);
@@ -134,7 +181,7 @@ main{
 }
 .modal-container{
     overflow: hidden;
-    background-color: #e2bdb4;
+    background-color: var(--secondary-color);
     display: flex;
     position: absolute;
     flex-direction: column;
@@ -183,7 +230,7 @@ form button{
     width: 80%;
 }
 form button:hover{
-    background-color: #17ac84;
+    background-color: var(--secondary-color);
 
 }
 .corbeil{
@@ -223,6 +270,7 @@ form button:hover{
     align-items: center;
     width: 10%;
     justify-content: center;
+    cursor: pointer;
 }
 .corbeil-etat{
     position: relative;
@@ -246,4 +294,42 @@ form button:hover{
         opacity: 1;
         transform: scale(1);
     }
+}
+.notification{
+    border-radius: 10px;
+    display: none;
+    position: fixed ;
+    top: 20%;
+    left: 25%;
+    right: 25%;
+    bottom: 50%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.notification .btn-notification{
+    width: 30%;
+    height: 25%;
+    background-color: var(--secondary-color);
+    font-size: 2rem;
+    border-radius: 10px;
+}
+.notification .btn-notification:hover{
+    background-color: var(--primary-color);
+}
+.notification.show-erreur{
+    display: block;
+}
+.message-notification{
+    background-color: var(--secondary-color);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.btnPopup.show-ntnPopup{
+    display: block;
 }

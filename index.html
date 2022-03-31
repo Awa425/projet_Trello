@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
+    <header class="header">
             <button id="add-column">Add Column</button>
             <button id="add-task">Add Task</button>
             <button id="auto-save">Auto save</button>
@@ -27,12 +27,15 @@
                 <div class="img"><img src="./images/file-1636585210491-f28ca34ea8ecimage.jpeg" alt=""></div>
                 <div class="note">
                     <div class="us">
+                        <span class="delete-tache">x</span>
                        <span><<</span>
                         <span class="span-next">>></span>
-                       <textarea> Lorem ipsum dolor sit amet.</textarea>
-                       <p>Date: </p>
-                       <p class="heure-debut">Heure debut: </p>
-                       <p class="heure-fin">Heure Fin: </p>
+                       <div class="inf">
+                            <textarea> Lorem ipsum dolor sit amet.</textarea>
+                            <p>Date: </p>
+                            <p class="heure-debut">Heure debut: </p>
+                            <p class="heure-fin">Heure Fin: </p>
+                       </div>
                     </div>
                 </div>
             </div>
@@ -71,21 +74,23 @@
             </div>
         </div>
     </div>
+    <div class="notification">
+        <div class="message-notification">
+            <h3 class="notification-content">Lorem ipsum dolor sit amet.</h3>
+            <button class="btn-notification">OK</button>
+            <!-- <div class="btnPopup">
+                <button class="cancel">Annuler.</button>
+                <button class="confirm">Confirmer.</button>
+            </div> -->
+        </div>
+    </div>
     <div class="corbeil">
         <div class="corbeil-container">
             <div class="corbeil-content">
                 <div class="corbeil-header">
                     <h2>La liste des etats supprimer</h2>
                     <span class="fermer-corbeil">x</span>
-                </div>
-                <!-- <div class="corbeil-etat">
-                    <span class="corbeil-us-content"> US : </span>
-                    <span class="num-colonne">numero colonne d'origine: </span>
-                    <span class="corbeil-date">Date :</span>
-                    <span class="corbeil-HDebut">Heure debut : </span>
-                    <span class="corbeil-HFin">Heure Fin : </span>
-                    <button class="restaurer">Restaurer</button>
-                </div> -->
+                </div >
             </div>
         </div>
     </div>
