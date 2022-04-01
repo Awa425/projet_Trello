@@ -97,12 +97,9 @@ main{
    overflow: scroll;
 }
 .note .us{
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
     border: 1px solid;
-    border-radius: 5px;
-    background-color: #d2f0e8;
+    border-radius: 10px;
+    background-color: white;
     position: relative;
 }
 .note .us:hover .noteToggle{
@@ -116,8 +113,8 @@ main{
 }
 .us textarea{
     width: 90%;
-    height: 50px;
-    background-color: #b1ccc4;
+    height: 60px;
+    background-color: white
 
 }
 .us textarea:focus{
@@ -240,7 +237,6 @@ form button:hover{
     left: 0;
     right: 5%;
     bottom: 0;
-    /* background-color: rgba(0, 0, 0, 0.8); */
 
 }
 .corbeil.show-corbeil{
@@ -344,4 +340,14 @@ form button:hover{
 
 .btnPopup.show-ntnPopup{
     display: block;
+}
+
+.us .restaurer{
+    display: none;
+}
+.corbeil.corbeil.show-corbeil .restaurer{
+    display: block;
+}
+.corbeil.corbeil.show-corbeil .textarea{
+    width: 80%;
 }

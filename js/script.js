@@ -23,11 +23,12 @@ const corbeil = document.querySelector('.corbeil')
 const notification = document.querySelector('.notification')
 const message_notification= document.querySelector('.notification-content')
 const btn_notif = document.querySelector('.btn-notification')
-console.log( btn_notif)
+
+
 
 let cpt = 1;
 createColumn()
-addCorbeil()
+
 
 function createColumn() {
     if (cpt<=5) {  
@@ -88,9 +89,11 @@ function createColumn() {
 }
 let j = 1;
 function createUs(content,dat,hDebut,hFin) {
+    const span_cache = document.createElement('span')
     const parentUs = document.querySelector('.note')
     const us = document.createElement('div');
     const span_prev = document.createElement('span');
+    const btn_restaurer=document.createElement('button')
     const textarea = document.createElement('textarea');
     const delete_tache = document.createElement('span')
     const span_next = document.createElement('span');
@@ -100,14 +103,20 @@ function createUs(content,dat,hDebut,hFin) {
     const heureFin = document.createElement('p');
     us.setAttribute('class', 'us')
     textarea.setAttribute('class', 'textarea')
+    // textarea.setAttribute('readonly','readonly')
     textarea.setAttribute('id','texterea_'+cpt);
     textarea.setAttribute('cols', "5")
     textarea.setAttribute('rows', "3")
     span_next.setAttribute('class', 'span-next');
     span_prev.setAttribute('class', 'span-prev');
     divNoteToggle.setAttribute('class', 'noteToggle')
+    span_cache.style.display= 'none'
+    span_cache.setAttribute('class', 'cache')
+    btn_restaurer.setAttribute('class','restaurer')
     us.setAttribute('id', 'us_'+j)
     delete_tache.setAttribute('class', 'delete-tache')
+    span_cache.textContent="container_1";
+    btn_restaurer.textContent="Restaurer"
     delete_tache.textContent="x"
     textarea.textContent=content;
     date.textContent="Date: "+dat;
@@ -115,25 +124,30 @@ function createUs(content,dat,hDebut,hFin) {
     heureFin.textContent="Heure Fin: "+hFin;
     span_prev.innerHTML="&#xab"
     span_next.innerHTML="&#xbb"
-    divNoteToggle.append( date,heureDebut,heureFin)
-    us.append(delete_tache,span_prev,span_next,textarea,divNoteToggle);
-    
-    const container_next = document.getElementById('container_'+(j+1))
-    const container_prev = document.getElementById('container_'+(j-1))
-    // console.log(container_next)
-    if (container_next!="") {
-        span_next.classList.add('show-flech')
-    }
-    if (container_prev!="") {
-        span_prev.classList.add('show-flech')
-    }
-    
+    divNoteToggle.append( date,heureDebut,heureFin,span_cache)
+    us.append(btn_restaurer,delete_tache,span_prev,span_next,textarea,divNoteToggle);
+
     delete_tache.addEventListener('click', ()=>{
         const corb = document.querySelector('.corbeil-etat')
         corb.append(us)
 
     })
+  
+    btn_restaurer.addEventListener('click',()=>{
+        const us_restaurer = btn_restaurer.parentElement
+        const span_cach = btn_restaurer.parentElement.querySelector('.cache').innerHTML
+        const container_origin = document.getElementById(span_cach).lastElementChild.lastChild; 
+          if (container_origin!="") { 
+              container_origin.append(us_restaurer);   
+          }
+          else {
+                const container1 = document.getElementById('container_1') 
+                console.log(container1);
+            //   container1.append(us_restaurer)
+            }
 
+         
+    })
     span_next.setAttribute('onClick',`deplacerNext(${j})`)
     span_prev.setAttribute('onClick',`deplacerPrev(${j})`)
     j++;
@@ -142,10 +156,10 @@ function createUs(content,dat,hDebut,hFin) {
 
 function deplacerNext(j) {
     const move = document.getElementById('us_'+j)
-    console.dir(move.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild.lastChild)
         const divMove = move.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild.lastChild;
         if(move.parentElement.parentElement.parentElement.nextSibling !=""){
-            divMove.append(move);    
+            divMove.append(move); 
+            sapnCache()   
         } 
 }
 
@@ -154,6 +168,7 @@ function deplacerPrev(j) {
     const divMove = move.parentElement.parentElement.parentElement.previousElementSibling.lastElementChild.lastChild;
     if(move.parentElement.parentElement.parentElement.previousElementSibling !=""){
         divMove.append(move);
+        sapnCache()
     }
 }
 
@@ -193,25 +208,6 @@ function update_textarea() {
         tex.setAttribute('id','texterea_'+i);
     })
 }
- 
-function addCorbeil() {
-    const corbeil_etat = document.createElement('div')
-    const corbeil_us_content = document.createElement('span')
-    const num_colonne = document.createElement('span')
-    const corbeil_date = document.createElement('span')
-    const corbeil_HDebut = document.createElement('span')
-    const corbeil_HFin = document.createElement('span')
-    const btn_restaurer = document.createElement('button')
-    corbeil_etat.setAttribute('class','corbeil-etat');
-    corbeil_us_content.textContent="US: "
-    num_colonne.textContent="Colonne numero: "
-    corbeil_date.textContent="Date: "
-    corbeil_HDebut.textContent="Heure Debut : "
-    corbeil_HFin.textContent="Heure de fin : "
-    btn_restaurer.textContent="Restaurer"
-    corbeil_etat.append(corbeil_us_content,num_colonne,corbeil_date,corbeil_HDebut,corbeil_HFin,btn_restaurer);
-    corbeil_content.append(corbeil_etat)
-}
 
 function checkTitle(titre) {
     if (titre!="") {
@@ -231,6 +227,15 @@ function notifications(ch1,ch2,ch3,message,e) {
     ch1.classList.remove('show-modal')
     ch2.classList.add('show-erreur')
     ch3.textContent=message
+}
+function sapnCache() {
+    const containers = document.querySelectorAll('.container')
+    for (let i = 1; i <= containers.length; i++) {
+        const id_containers = document.getElementById('container_'+i).querySelectorAll('.cache')
+        id_containers.forEach(elt=>{
+            elt.innerHTML="container_"+i
+        })
+    }
 }
 add_column.addEventListener('click', ()=>{
     createColumn()
@@ -261,7 +266,9 @@ ajouter_tache.addEventListener('click', (e)=>{
                 let uss = createUs(note_textarea.value, datUs.value, hdeb.value,hefin.value);
                 let sms = "La tache est bien ajouter"
                 creeUs.append(uss)
-                notifications(modal,notification,message_notification,sms,e)
+                e.preventDefault()
+                modal.classList.remove('show-modal')
+                // notifications(modal,notification,message_notification,sms,e)
             }
             else{
                 let sms = "L'heure de fin ne doit pas inferieur a l'heure de debut"
@@ -278,7 +285,12 @@ ajouter_tache.addEventListener('click', (e)=>{
         e.preventDefault()
         notifications(modal,notification,message_notification,sms,e)
     }
-
+  
+    // const span_caches = document.querySelectorAll('.cache')
+    // span_caches.forEach(element => {
+    //     element.innerHTML="ca"
+    //     console.dir(element)
+    // });
 })
 
 icon_corbeil.addEventListener('click', ()=>{
