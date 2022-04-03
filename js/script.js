@@ -14,8 +14,12 @@ const add_task = document.getElementById('add-task')
 const modal = document.querySelector('.modal')
 const modal_close = document.querySelector('.modal-close')
 const ajouter_tache = document.getElementById('ajouter')
+const modifier_tache = document.getElementById('modifier')
 const note_textarea = document.getElementById('note-textarea')
+const text_are = document.querySelectorAll('.textarea')
 const dateUs = document.querySelector('.date')
+const heure_deb = document.querySelector('.heure-debut')
+const heure_fin = document.querySelector('.heure-fin')
 const corbeil_content = document.querySelector('.corbeil-content')
 const fermer_corbeil = document.querySelector('.fermer-corbeil')
 const icon_corbeil = document.querySelector('.icon-corbeil')
@@ -23,7 +27,7 @@ const corbeil = document.querySelector('.corbeil')
 const notification = document.querySelector('.notification')
 const message_notification= document.querySelector('.notification-content')
 const btn_notif = document.querySelector('.btn-notification')
-
+console.log(text_are)
 
 
 let cpt = 1;
@@ -88,6 +92,7 @@ function createColumn() {
     } 
 }
 let j = 1;
+let cpt_us=1;
 function createUs(content,dat,hDebut,hFin) {
     const span_cache = document.createElement('span')
     const parentUs = document.querySelector('.note')
@@ -103,8 +108,8 @@ function createUs(content,dat,hDebut,hFin) {
     const heureFin = document.createElement('p');
     us.setAttribute('class', 'us')
     textarea.setAttribute('class', 'textarea')
-    // textarea.setAttribute('readonly','readonly')
-    textarea.setAttribute('id','texterea_'+cpt);
+    textarea.setAttribute('readonly','readonly')
+    textarea.setAttribute('id','texterea_'+cpt_us);
     textarea.setAttribute('cols', "5")
     textarea.setAttribute('rows', "3")
     span_next.setAttribute('class', 'span-next');
@@ -113,15 +118,15 @@ function createUs(content,dat,hDebut,hFin) {
     span_cache.style.display= 'none'
     span_cache.setAttribute('class', 'cache')
     btn_restaurer.setAttribute('class','restaurer')
-    us.setAttribute('id', 'us_'+j)
+    us.setAttribute('id', 'us_'+cpt_us)
     delete_tache.setAttribute('class', 'delete-tache')
     span_cache.textContent="container_1";
     btn_restaurer.textContent="Restaurer"
     delete_tache.textContent="x"
     textarea.textContent=content;
-    date.textContent="Date: "+dat;
-    heureDebut.textContent="Heure debut: "+hDebut;
-    heureFin.textContent="Heure Fin: "+hFin;
+    date.textContent=dat;
+    heureDebut.textContent=hDebut;
+    heureFin.textContent=hFin;
     span_prev.innerHTML="&#xab"
     span_next.innerHTML="&#xbb"
     divNoteToggle.append( date,heureDebut,heureFin,span_cache)
@@ -132,7 +137,29 @@ function createUs(content,dat,hDebut,hFin) {
         corb.append(us)
 
     })
-  
+    textarea.addEventListener('dblclick',()=>{
+        let tex = textarea.parentElement.childNodes[4].innerHTML;
+        let dte = textarea.nextSibling.childNodes[0].textContent
+        let hd = textarea.nextSibling.childNodes[1].textContent
+        let hf = textarea.nextSibling.childNodes[2].textContent
+        // clearChamps()
+        modal.classList.add('show-modal');
+        modifier_tache.classList.add('show-btn-modifier')
+        ajouter_tache.classList.add('hidden-btn-modifier')
+        note_textarea.value=tex;
+        console.log(note_textarea)
+        console.log(tex)
+        dateUs.value=dte;
+        heure_deb.value=hd
+        heure_fin.value=hf;
+        modifier_tache.addEventListener('click', (e)=>{
+            e.preventDefault()
+            textarea.parentElement.childNodes[4].value=note_textarea.value;
+            textarea.nextSibling.childNodes[0].textContent= dateUs.value;
+            textarea.nextSibling.childNodes[1].textContent= heure_deb.value;
+            textarea.nextSibling.childNodes[2].textContent= heure_fin.value;
+        })
+    })
     btn_restaurer.addEventListener('click',()=>{
         const us_restaurer = btn_restaurer.parentElement
         const span_cach = btn_restaurer.parentElement.querySelector('.cache').innerHTML
@@ -143,7 +170,7 @@ function createUs(content,dat,hDebut,hFin) {
           else {
                 const container1 = document.getElementById('container_1') 
                 console.log(container1);
-            //   container1.append(us_restaurer)
+              container1.appendChild(us_restaurer)
             }
 
          
@@ -151,6 +178,7 @@ function createUs(content,dat,hDebut,hFin) {
     span_next.setAttribute('onClick',`deplacerNext(${j})`)
     span_prev.setAttribute('onClick',`deplacerPrev(${j})`)
     j++;
+    cpt_us++;
     return us
 }
 
@@ -237,12 +265,18 @@ function sapnCache() {
         })
     }
 }
+function clearChamps() {
+    let champs=[note_textarea, dateUs, heure_deb, heure_fin]
+    champs.forEach(champ=>{
+        champ.value="";
+    })
+}
 add_column.addEventListener('click', ()=>{
     createColumn()
 })
 
 add_task.addEventListener('click',()=>{
-    note_textarea.value="";
+    // clearChamps()
     modal.classList.add('show-modal');
 })
 
@@ -258,8 +292,7 @@ ajouter_tache.addEventListener('click', (e)=>{
     let hefin = document.querySelector('.heure-fin')
     let heure_deb = datUs.value+' '+hdeb.value;
     let heure_fi = datUs.value+' '+hefin.value;
-    let date_actuelle = new Date().getTime();
-    
+    let date_actuelle = new Date().getTime();  
     if (note_textarea.value!="" && datUs.value!="" && hdeb.value!="" && hefin.value!="") {
         if (!compareDate(date_actuelle,heure_deb)) {
             if (compareDate(heure_deb,heure_fi)) {
@@ -268,7 +301,6 @@ ajouter_tache.addEventListener('click', (e)=>{
                 creeUs.append(uss)
                 e.preventDefault()
                 modal.classList.remove('show-modal')
-                // notifications(modal,notification,message_notification,sms,e)
             }
             else{
                 let sms = "L'heure de fin ne doit pas inferieur a l'heure de debut"
@@ -285,22 +317,13 @@ ajouter_tache.addEventListener('click', (e)=>{
         e.preventDefault()
         notifications(modal,notification,message_notification,sms,e)
     }
-  
-    // const span_caches = document.querySelectorAll('.cache')
-    // span_caches.forEach(element => {
-    //     element.innerHTML="ca"
-    //     console.dir(element)
-    // });
 })
-
 icon_corbeil.addEventListener('click', ()=>{
     corbeil.classList.add('show-corbeil')
 })
-
 fermer_corbeil.addEventListener('click', ()=>{
     corbeil.classList.remove('show-corbeil')
 
 })
-
 btn_notif.addEventListener('click',()=>{notification.classList.remove('show-erreur')})
 

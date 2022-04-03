@@ -134,10 +134,13 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #b80808;
+    border-radius: 50%;
+    color: white;
 }
 .span-next{
-    width: 40px;
-    border-radius: 10px;
+    width: 36px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,10 +151,13 @@ main{
     bottom: 5px;
     right: 0;
     font-size: 2rem;
+    height: 24px;
+   
+    background-color: rgb(196, 193, 193);
 }
 .span-prev{
-    width: 40px;
-    border-radius: 10px;
+    width: 36px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,7 +168,9 @@ main{
     left: 0;
     cursor: pointer;
     font-size: 2rem;
-
+    height: 24px;
+    
+    background-color: rgb(196, 193, 193);
 }
 .modal{
     background-color: rgba(0, 0, 0, 0.4);
@@ -221,6 +229,16 @@ form{
     justify-content: center;
     align-items: center;
 
+}
+.btn #modifier{
+    display: none;
+}
+.btn #modifier.show-btn-modifier{
+    display: block;
+    background-color: green;
+}
+.btn #ajouter.hidden-btn-modifier {
+    display: none;
 }
 form button{
   
