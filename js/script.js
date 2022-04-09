@@ -1,16 +1,14 @@
-
 let couleur = [
     '#505050',
     '#bcbcbc'
 ];
-let image = [
-
-]
+const API_url_lister = `http://localhost/projet_trello_cote_back/public/?controller=tache&action=sauvegardeEtat`;
 
 const main = document.getElementById('main');
 const header = document.querySelector('.header')
 const add_column = document.getElementById('add-column')
 const add_task = document.getElementById('add-task')
+const sauvegarderEtat = document.getElementById('Sauvegarder')
 const modal = document.querySelector('.modal')
 const modal_close = document.querySelector('.modal-close')
 const ajouter_tache = document.getElementById('ajouter')
@@ -27,13 +25,10 @@ const corbeil = document.querySelector('.corbeil')
 const notification = document.querySelector('.notification')
 const message_notification= document.querySelector('.notification-content')
 const btn_notif = document.querySelector('.btn-notification')
-console.log(text_are)
 
 
+listerEtat(API_url_lister)
 let cpt = 1;
-createColumn()
-
-
 function createColumn() {
     if (cpt<=5) {  
          //Create Element
@@ -135,9 +130,9 @@ function createUs(content,dat,hDebut,hFin) {
     delete_tache.addEventListener('click', ()=>{
         const corb = document.querySelector('.corbeil-etat')
         corb.append(us)
-
     })
     textarea.addEventListener('dblclick',()=>{
+        console.dir(textarea.parentElement)
         let tex = textarea.parentElement.childNodes[4].innerHTML;
         let dte = textarea.nextSibling.childNodes[0].textContent
         let hd = textarea.nextSibling.childNodes[1].textContent
@@ -145,14 +140,13 @@ function createUs(content,dat,hDebut,hFin) {
         // clearChamps()
         modal.classList.add('show-modal');
         modifier_tache.classList.add('show-btn-modifier')
-        ajouter_tache.classList.add('hidden-btn-modifier')
+        ajouter_tache.classList.remove('show-btn-ajouter')
         note_textarea.value=tex;
-        console.log(note_textarea)
-        console.log(tex)
         dateUs.value=dte;
         heure_deb.value=hd
         heure_fin.value=hf;
         modifier_tache.addEventListener('click', (e)=>{
+        modal.classList.remove('show-modal');
             e.preventDefault()
             textarea.parentElement.childNodes[4].value=note_textarea.value;
             textarea.nextSibling.childNodes[0].textContent= dateUs.value;
@@ -169,11 +163,8 @@ function createUs(content,dat,hDebut,hFin) {
           }
           else {
                 const container1 = document.getElementById('container_1') 
-                console.log(container1);
               container1.appendChild(us_restaurer)
-            }
-
-         
+            }    
     })
     span_next.setAttribute('onClick',`deplacerNext(${j})`)
     span_prev.setAttribute('onClick',`deplacerPrev(${j})`)
@@ -181,7 +172,6 @@ function createUs(content,dat,hDebut,hFin) {
     cpt_us++;
     return us
 }
-
 function deplacerNext(j) {
     const move = document.getElementById('us_'+j)
         const divMove = move.parentElement.parentElement.parentElement.nextElementSibling.lastElementChild.lastChild;
@@ -190,7 +180,6 @@ function deplacerNext(j) {
             sapnCache()   
         } 
 }
-
 function deplacerPrev(j) {
     const move = document.getElementById('us_'+j)
     const divMove = move.parentElement.parentElement.parentElement.previousElementSibling.lastElementChild.lastChild;
@@ -199,11 +188,9 @@ function deplacerPrev(j) {
         sapnCache()
     }
 }
-
 function randomColor() {
     return couleur[Math.floor(Math.random()*couleur.length)]
 }
-
 function update_entete(){
     const inputs = document.querySelectorAll('.entete-card');
     inputs.forEach((input,i) => {
@@ -212,7 +199,6 @@ function update_entete(){
         
     }); 
 }
-
 function update_id_card() {
     const containers = document.querySelectorAll('.container')
     containers.forEach((contain,i)=>{
@@ -220,7 +206,6 @@ function update_id_card() {
         contain.setAttribute('id', 'container_'+i);
     })
 }
-
 function update_id_note() {
     const nootes = document.querySelectorAll('.note')
     nootes.forEach((noote,i)=>{
@@ -228,7 +213,6 @@ function update_id_note() {
         noote.setAttribute('id', 'note_'+i);
     })
 }
-
 function update_textarea() {
     const texts = document.querySelectorAll('.textarea')
     texts.forEach((tex,i)=>{
@@ -236,18 +220,9 @@ function update_textarea() {
         tex.setAttribute('id','texterea_'+i);
     })
 }
-
 function checkTitle(titre) {
     if (titre!="") {
         return true;
-    }
-}
-function disable(elt) {
-    elt.setAttribute('disabled', 'disabled');
-}
-function compareDate(d1,d2) {
-    if (Date.parse(d1) < Date.parse(d2) ) {
-        return true;    
     }
 }
 function notifications(ch1,ch2,ch3,message,e) {
@@ -271,13 +246,89 @@ function clearChamps() {
         champ.value="";
     })
 }
+function id_us() {
+    const containers = document.querySelectorAll('.container')
+    for (let x = 1; x <= containers.length; x++) {
+        const id_us = document.getElementById('container_'+x).querySelectorAll('.us')
+        id_us.forEach((id,k)=>{
+            k++;
+            id.setAttribute('id', 'us_'+k+'_container_'+x);
+        }) 
+       
+    }
+}
+function addEtat() {
+    const containers = document.querySelectorAll('.container')
+    let tableauUs = []
+    for (let x = 1; x <= containers.length; x++) {
+        const us = document.getElementById('container_'+x).querySelectorAll('.us')
+        num_colonne = document.getElementById('container_'+x).childNodes[1].childNodes[0].value
+        let tab_element = []
+        us.forEach(elt=>{
+            tab_element.push( 
+                {
+                    text : elt.childNodes[4].innerHTML,
+                    date : elt.childNodes[5].childNodes[0].innerHTML,
+                    heureDebut : elt.childNodes[5].childNodes[1].innerHTML,
+                    heureFin : elt.childNodes[5].childNodes[2].innerHTML
+                }
+            )
+        })  
+        tableauUs.push(tab_element)
+    }
+    
+    fetch(API_url_lister, 
+        {
+            method : "POST",
+            body : JSON.stringify(
+                {
+                    tableauUs:tableauUs
+                }
+            )
+        })
+}
+async function listerEtat(url){
+    let response = await fetch(url)
+    let donneesJson = await response.json();
+    for (let i = 0; i < donneesJson.Tableau.tableauUs.length; i++) { 
+        createColumn(); i++;
+        let containerOrigin = document.getElementById(`container_${i}`).querySelector('.note'); i--;
+        for (let j = 0; j < donneesJson.Tableau.tableauUs[i].length; j++) {
+            let content = donneesJson.Tableau.tableauUs[i][j].text
+            let dat = donneesJson.Tableau.tableauUs[i][j].date
+            let hDebut = donneesJson.Tableau.tableauUs[i][j].heureDebut
+            let hFin = donneesJson.Tableau.tableauUs[i][j].heureFin
+            let tache = createUs(content,dat,hDebut,hFin);
+            containerOrigin.appendChild(tache)
+        }
+    }
+}
+
+let myTimeOute = setInterval(function(){
+    const taches= document.querySelectorAll('.us')
+    taches.forEach(tache=>{
+        let date = tache.lastElementChild.childNodes[0].innerHTML;
+        let dateDeb = Date.parse(date+' '+tache.lastElementChild.childNodes[1].innerHTML);
+        let dateFin = Date.parse(date+' '+tache.lastElementChild.childNodes[2].innerHTML);
+        let currentTime = new Date().getTime()
+        if(currentTime<dateDeb){tache.style.backgroundColor='grey'}
+        if(currentTime>dateDeb && currentTime<dateFin){tache.style.backgroundColor='red'}
+        if(currentTime>=dateFin){tache.style.backgroundColor='green'}
+
+      
+       })
+},1000)
 add_column.addEventListener('click', ()=>{
     createColumn()
 })
 
 add_task.addEventListener('click',()=>{
-    // clearChamps()
-    modal.classList.add('show-modal');
+    if(main.childElementCount!=0){
+        // clearChamps()
+        modal.classList.add('show-modal');
+        modifier_tache.classList.remove('show-btn-modifier')
+        ajouter_tache.classList.add('show-btn-ajouter')
+    }
 })
 
 modal_close.addEventListener('click', ()=>{
@@ -290,17 +341,18 @@ ajouter_tache.addEventListener('click', (e)=>{
     let datUs = document.querySelector('.date')
     let hdeb = document.querySelector('.heure-debut')
     let hefin = document.querySelector('.heure-fin')
-    let heure_deb = datUs.value+' '+hdeb.value;
-    let heure_fi = datUs.value+' '+hefin.value;
-    let date_actuelle = new Date().getTime();  
+    let heure_deb = Date.parse(datUs.value+' '+hdeb.value);
+    let heure_fi = Date.parse(datUs.value+' '+hefin.value);
+    let date_actuelle = new Date().getTime();   
     if (note_textarea.value!="" && datUs.value!="" && hdeb.value!="" && hefin.value!="") {
-        if (!compareDate(date_actuelle,heure_deb)) {
-            if (compareDate(heure_deb,heure_fi)) {
+        if (date_actuelle<heure_deb) {
+            if ((heure_deb<heure_fi)) {
                 let uss = createUs(note_textarea.value, datUs.value, hdeb.value,hefin.value);
                 let sms = "La tache est bien ajouter"
                 creeUs.append(uss)
                 e.preventDefault()
                 modal.classList.remove('show-modal')
+                // test();
             }
             else{
                 let sms = "L'heure de fin ne doit pas inferieur a l'heure de debut"
@@ -318,12 +370,14 @@ ajouter_tache.addEventListener('click', (e)=>{
         notifications(modal,notification,message_notification,sms,e)
     }
 })
+
+sauvegarderEtat.addEventListener('click', ()=>{
+    addEtat()
+})
 icon_corbeil.addEventListener('click', ()=>{
     corbeil.classList.add('show-corbeil')
 })
 fermer_corbeil.addEventListener('click', ()=>{
     corbeil.classList.remove('show-corbeil')
-
 })
 btn_notif.addEventListener('click',()=>{notification.classList.remove('show-erreur')})
-

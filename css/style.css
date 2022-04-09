@@ -101,12 +101,52 @@ main{
     border-radius: 10px;
     background-color: white;
     position: relative;
+    max-height: 40%;
+  
+    
+}
+.note .us:hover{
+    height: 40%;
 }
 .note .us:hover .noteToggle{
-    display: block;
+    display: block; 
+}
+.note .us:hover .delete-tache{
+    cursor: pointer;
+    width: 10%;
+    height: 19%;
+    position: absolute;
+    height: 10%;
+    right: 0;
+    top: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
 }
 .noteToggle{
     display: none;
+    position: relative;
+}
+.noteToggle :nth-child(1){
+    font-weight: bold;
+    margin-left: 20%;
+}
+.noteToggle :nth-child(2){
+    background-color: blue;
+    width: 32%;
+    border-radius: 14%;
+    position: absolute;
+    font-weight: bold;
+}
+.noteToggle :nth-child(3){
+    background-color: green;
+    width: 32%;
+    border-radius: 14%;
+    position: absolute;
+    right: 5px;
+    top: 34px;
+    font-weight: bold;
 }
 .noteToggle.show-noteToggle{
     display: none;
@@ -122,15 +162,18 @@ main{
    background-color: white;
     
 }
-
+/* .us :nth-child(4){
+    max-height: 30px;
+    background-color: red;
+} */
 .delete-tache{
     cursor: pointer;
     width: 10%;
     height: 19%;
     position: absolute;
-    height: 10%;
+    height: 22%;
     right: 0;
-    top: 0;
+    top: 7%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -139,7 +182,7 @@ main{
     color: white;
 }
 .span-next{
-    width: 36px;
+    width: 20px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -148,15 +191,15 @@ main{
     font-weight: bold;
     cursor: pointer;
     position: absolute;
-    bottom: 5px;
+    bottom: 0;
     right: 0;
-    font-size: 2rem;
+    font-size: 1.5rem;
     height: 24px;
    
-    background-color: rgb(196, 193, 193);
+    /* background-color: rgb(196, 193, 193); */
 }
 .span-prev{
-    width: 36px;
+    width: 20px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -164,13 +207,13 @@ main{
     height: 5%;
     font-weight: bold;
     position: absolute;
-    bottom: 5px;
+    bottom: 0;
     left: 0;
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 1.5rem;
     height: 24px;
     
-    background-color: rgb(196, 193, 193);
+    /* background-color: rgb(196, 193, 193); */
 }
 .modal{
     background-color: rgba(0, 0, 0, 0.4);
@@ -230,6 +273,12 @@ form{
     align-items: center;
 
 }
+.btn #ajouter{
+    display: none;
+}
+.btn #ajouter.show-btn-ajouter{
+    display: block;
+}
 .btn #modifier{
     display: none;
 }
@@ -237,18 +286,14 @@ form{
     display: block;
     background-color: green;
 }
-.btn #ajouter.hidden-btn-modifier {
-    display: none;
-}
 form button{
-  
     width: 80%;
 }
 form button:hover{
     background-color: var(--secondary-color);
-
 }
 .corbeil{
+    background-color: rgba(0, 0, 0, 0.4);
     display: none;
     position: fixed ;
     top: 0;
@@ -303,6 +348,7 @@ form button:hover{
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid grey;
+    max-height: 148px;
 }
 .corbeil-etat button{
     position: absolute;
